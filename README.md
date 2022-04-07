@@ -1,6 +1,10 @@
 # Mexico_Housing
 
-regression.py: 
+# CSV file contains the CSV files used for the project.
+
+# The Python file contains all the python files for the Project:
+
+# regression.py: 
 The code that was used to clean up the housing cvs 
 
 Basic clean up: 
@@ -25,3 +29,4 @@ To choose which cities were the most popular, various articles were used to clas
 Popularity variable was modified via STATA if certain areas were missed. 
 - usdmexval: (ADDED) 
 Added the value of 1 USD in MXN according to the date of listing, taken from 
+
