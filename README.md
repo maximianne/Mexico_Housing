@@ -1,10 +1,10 @@
 # Mexico_Housing
 
-# CSV file contains the CSV files used for the project.
+CSV file contains the CSV files used for the project.
 
-# The Python file contains all the python files for the Project:
+The Python file contains all the python files for the Project:
 
-# regression.py: 
+regression.py: 
 The code that was used to clean up the housing cvs 
 
 Basic clean up: 
