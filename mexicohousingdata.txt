@@ -1,0 +1,521 @@
+------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/maximianne/Desktop/mexicohousingdata.txt
+  log type:  text
+ opened on:   4 Apr 2022, 20:39:39
+
+. 
+. import delimited "/Users/maximianne/PycharmProjects/IndependentStudy/mex_housing_data.csv"
+(encoding automatically selected: UTF-8)
+(10 vars, 3,927 obs)
+
+. 
+. //fixes 
+. drop if price_aprox_usd > 1000000
+(177 observations deleted)
+
+. replace popularity = 3 if place_name == "Yucatán"
+(4 real changes made)
+
+. replace popularity = 3 if place_name == "Bucerías"
+(1 real change made)
+
+. replace popularity = 1 if place_name == "Cuernavaca"
+(9 real changes made)
+
+. replace popularity = 2 if place_name == "Veracruz"
+(171 real changes made)
+
+. replace popularity = 3 if place_name == "Tulum"
+(2 real changes made)
+
+. replace popularity = 3 if place_name == "Playa del Carmen"
+(4 real changes made)
+
+. replace popularity = 3 if place_name == "San Miguel de Allende"
+(22 real changes made)
+
+. replace popularity = 3 if place_name == "Tepic"
+(67 real changes made)
+
+. replace popularity = 3 if place_name == "Cancún"
+(3 real changes made)
+
+. replace popularity = 3 if place_name == "San Pedro Garza García"
+(162 real changes made)
+
+. replace popularity = 3 if place_name == "Santa Catarina"
+(28 real changes made)
+
+. replace popularity = 1 if place_name == "Villa Lomas Altas 2a Secc."
+(18 real changes made)
+
+. replace popularity = 2 if popularity == 1 & price_aprox_usd > 600000 
+(61 real changes made)
+
+. 
+. //popularity
+. summarize popularity
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  popularity |      3,750    2.018933    .9421314          1          3
+
+. summarize price_aprox_usd if popularity == 3
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |      1,700    206705.9    230093.7   14225.35    1000000
+
+. summarize price_aprox_usd if popularity == 2
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |        421    201096.6    245122.8   15805.94    1000000
+
+. summarize price_aprox_usd if popularity == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |      1,629    153501.8    125891.3    7902.91   595444.3
+
+. 
+. //dummy variables for popularity 
+. gen pop3 = 1 if popularity == 3
+(2,050 missing values generated)
+
+. replace pop3 = 0 if pop3 == .
+(2,050 real changes made)
+
+. 
+. gen pop2 = 1 if popularity == 2
+(3,329 missing values generated)
+
+. replace pop2 = 0 if pop2 == .
+(3,329 real changes made)
+
+. 
+. gen pop1 = 1 if popularity == 1
+(2,121 missing values generated)
+
+. replace pop1 = 0 if pop1 == . 
+(2,121 real changes made)
+
+. 
+. gen house = 1 if property_type == 1
+(452 missing values generated)
+
+. replace house =0 if house == .
+(452 real changes made)
+
+. 
+. sort year
+
+. 
+. // summary statistics 
+. by year: summarize price_aprox_usd usdmexval rooms house surface_total_in_m2 if popularity ==3 
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2013
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |         11    68824.23    42198.27   26355.66   184489.7
+   usdmexval |         11    13.05525           0   13.05525   13.05525
+       rooms |         11    2.090909    .8312094          1          3
+       house |         11           1           0          1          1
+surface_to~2 |         11    300.7273    109.0175        160        495
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2014
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |         52    99404.71    86729.71   15860.47     371882
+   usdmexval |         52    13.10263     .145677   12.99316   13.29276
+       rooms |         52    3.596154    1.922617          1          9
+       house |         52    .2884615     .457467          0          1
+surface_to~2 |         52    121.1346    86.48451         44        423
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2015
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |         81    189366.2    180823.1   26343.24     995000
+   usdmexval |         81    16.67775    .2201581    15.9515   17.06959
+       rooms |         81    2.839506    1.900374          1         18
+       house |         81    .5185185    .5027701          0          1
+surface_to~2 |         81    171.1111    142.3855         13       1000
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2016
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |      1,556    212169.2    235245.7   14225.35    1000000
+   usdmexval |      1,556    18.43062    .5320772   17.47952   19.24365
+       rooms |      1,556    2.987789    1.031581          1         11
+       house |      1,556    .8322622    .3737534          0          1
+surface_to~2 |      1,556    293.5546     1612.63         13      60000
+
+
+. 
+. by year: summarize price_aprox_usd usdmexval rooms house surface_total_in_m2 if popularity ==2 
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2013
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |          1    131119.5           .   131119.5   131119.5
+   usdmexval |          1    13.05525           .   13.05525   13.05525
+       rooms |          1           3           .          3          3
+       house |          1           1           .          1          1
+surface_to~2 |          1         494           .        494        494
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2014
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |          1    724175.7           .   724175.7   724175.7
+   usdmexval |          1    13.61478           .   13.61478   13.61478
+       rooms |          1           3           .          3          3
+       house |          1           1           .          1          1
+surface_to~2 |          1         490           .        490        490
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2015
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |         66    137146.1    149905.9   18440.26   790297.3
+   usdmexval |         66    16.12616    .7403133   15.19434   17.06959
+       rooms |         66    3.681818    2.823849          1         23
+       house |         66     .969697    .1727334          0          1
+surface_to~2 |         66    809.0152    2777.566         56      22500
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2016
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |        353    211769.7    256652.8   15805.94    1000000
+   usdmexval |        353    18.49804    .5317281   17.47952   19.24365
+       rooms |        353           3    1.047182          1         12
+       house |        353    .9716714    .1661454          0          1
+surface_to~2 |        353     344.204    491.2264         28       5076
+
+
+. 
+. by year: summarize price_aprox_usd usdmexval rooms house surface_total_in_m2 if popularity ==1
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2013
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |          2    70830.86    2329.536   69183.63   72478.09
+   usdmexval |          2    13.05525           0   13.05525   13.05525
+       rooms |          2           2           0          2          2
+       house |          2           1           0          1          1
+surface_to~2 |          2         430    240.4163        260        600
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2014
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |         19    113046.8    92139.42   20028.58     350000
+   usdmexval |         19    13.10508      .35545   12.99316   14.52048
+       rooms |         19    2.842105    1.014515          1          5
+       house |         19    .1052632    .3153018          0          1
+surface_to~2 |         19    158.6316    98.16947         60        395
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2015
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |         39    105409.1    103025.9   13698.48     499000
+   usdmexval |         39    16.64932    .5024334   15.19434   17.06959
+       rooms |         39    2.794872    1.080436          1          6
+       house |         39    .8461538    .3655178          0          1
+surface_to~2 |         39    192.2821    186.1861         63       1157
+
+------------------------------------------------------------------------------------------------------------------------------------
+-> year = 2016
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |      1,569    155292.5    126534.9    7902.91   595444.3
+   usdmexval |      1,569      18.304    .5544826   17.47952   19.24365
+       rooms |      1,569    3.005736    1.050677          1         10
+       house |      1,569    .9490121    .2200431          0          1
+surface_to~2 |      1,569    309.9936    1076.638         10      36371
+
+
+. 
+. summarize price_aprox_usd
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |      3,750    182964.3    195643.6    7902.91    1000000
+
+. 
+. summarize usdmexval
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   usdmexval |      3,750    18.16483    1.033188   12.99316   19.24365
+
+. 
+. summarize rooms
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       rooms |      3,750       3.008    1.143453          1         23
+
+. 
+. summarize surface_total_in_m2
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+surface_to~2 |      3,750    307.6997    1314.025         10      60000
+
+. 
+. summarize house 
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       house |      3,750    .8794667    .3256276          0          1
+
+. 
+. summarize popularity
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  popularity |      3,750    2.018933    .9421314          1          3
+
+. 
+. 
+. summarize price_aprox_usd if popularity == 3
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |      1,700    206705.9    230093.7   14225.35    1000000
+
+. 
+. summarize usdmexval if popularity == 3
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   usdmexval |      1,700    18.14935    1.176972   12.99316   19.24365
+
+. 
+. summarize rooms if popularity == 3
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       rooms |      1,700    2.993529    1.129863          1         18
+
+. 
+. summarize house  if popularity == 3
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       house |      1,700    .8017647    .3987877          0          1
+
+. 
+. summarize surface_total_in_m2 if popularity == 3
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+surface_to~2 |      1,700    282.4929    1543.669         13      60000
+
+. 
+. summarize pop3 
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        pop3 |      3,750    .4533333    .4978838          0          1
+
+. 
+. 
+. summarize price_aprox_usd if popularity == 2
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |        421    201096.6    245122.8   15805.94    1000000
+
+. 
+. summarize usdmexval if popularity == 2
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   usdmexval |        421    18.10167    1.084278   13.05525   19.24365
+
+. 
+. summarize rooms if popularity == 2
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       rooms |        421    3.106888      1.4882          1         23
+
+. 
+. summarize house  if popularity == 2
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       house |        421    .9714964    .1666044          0          1
+
+. 
+. summarize surface_total_in_m2 if popularity == 2
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+surface_to~2 |        421    417.7743    1193.664         28      22500
+
+. 
+. summarize pop2
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        pop2 |      3,750    .1122667    .3157364          0          1
+
+. 
+. 
+. summarize price_aprox_usd if popularity == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+price_apro~d |      1,629    153501.8    125891.3    7902.91   595444.3
+
+. 
+. summarize usdmexval if popularity == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   usdmexval |      1,629     18.1973    .8407723   12.99316   19.24365
+
+. 
+. summarize rooms if popularity == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       rooms |      1,629    2.997545    1.050912          1         10
+
+. 
+. summarize house  if popularity == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       house |      1,629     .936771    .2434491          0          1
+
+. 
+. summarize surface_total_in_m2 if popularity == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+surface_to~2 |      1,629    305.5574    1057.344         10      36371
+
+. 
+. summarize pop1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        pop1 |      3,750       .4344    .4957441          0          1
+
+. 
+. 
+. regress price_aprox_usd usdmexval rooms house surface_total_in_m2 pop3
+
+      Source |       SS           df       MS      Number of obs   =     3,750
+-------------+----------------------------------   F(5, 3744)      =     83.77
+       Model |  1.4438e+13         5  2.8876e+12   Prob > F        =    0.0000
+    Residual |  1.2906e+14     3,744  3.4471e+10   R-squared       =    0.1006
+-------------+----------------------------------   Adj R-squared   =    0.0994
+       Total |  1.4350e+14     3,749  3.8276e+10   Root MSE        =    1.9e+05
+
+-------------------------------------------------------------------------------------
+    price_aprox_usd | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+--------------------+----------------------------------------------------------------
+          usdmexval |   -18259.8   3022.479    -6.04   0.000    -24185.66   -12333.93
+              rooms |   38437.21   2706.496    14.20   0.000     33130.86    43743.57
+              house |   31161.62   9928.036     3.14   0.002     11696.73    50626.51
+surface_total_in_m2 |    18.6436   2.320022     8.04   0.000     14.09497    23.19223
+               pop3 |   49219.05   6245.457     7.88   0.000     36974.22    61463.88
+              _cons |   343576.4   54922.84     6.26   0.000     235894.8      451258
+-------------------------------------------------------------------------------------
+
+. 
+. regress price_aprox_usd usdmexval rooms house surface_total_in_m2 pop2
+
+      Source |       SS           df       MS      Number of obs   =     3,750
+-------------+----------------------------------   F(5, 3744)      =     70.47
+       Model |  1.2344e+13         5  2.4687e+12   Prob > F        =    0.0000
+    Residual |  1.3115e+14     3,744  3.5031e+10   R-squared       =    0.0860
+-------------+----------------------------------   Adj R-squared   =    0.0848
+       Total |  1.4350e+14     3,749  3.8276e+10   Root MSE        =    1.9e+05
+
+-------------------------------------------------------------------------------------
+    price_aprox_usd | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+--------------------+----------------------------------------------------------------
+          usdmexval |  -17234.58   3047.617    -5.66   0.000    -23209.73   -11259.43
+              rooms |   38970.63   2727.538    14.29   0.000     33623.03    44318.24
+              house |   12769.06   9815.123     1.30   0.193     -6474.45    32012.57
+surface_total_in_m2 |   18.45915   2.339293     7.89   0.000     13.87274    23.04557
+               pop2 |   11245.52   9743.459     1.15   0.249    -7857.489    30348.52
+              _cons |   360631.5    55363.2     6.51   0.000     252086.5    469176.5
+-------------------------------------------------------------------------------------
+
+. 
+. regress price_aprox_usd usdmexval rooms house surface_total_in_m2 pop1
+
+      Source |       SS           df       MS      Number of obs   =     3,750
+-------------+----------------------------------   F(5, 3744)      =     86.27
+       Model |  1.4824e+13         5  2.9648e+12   Prob > F        =    0.0000
+    Residual |  1.2867e+14     3,744  3.4368e+10   R-squared       =    0.1033
+-------------+----------------------------------   Adj R-squared   =    0.1021
+       Total |  1.4350e+14     3,749  3.8276e+10   Root MSE        =    1.9e+05
+
+-------------------------------------------------------------------------------------
+    price_aprox_usd | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+--------------------+----------------------------------------------------------------
+          usdmexval |  -17620.28   3016.041    -5.84   0.000    -23533.52   -11707.03
+              rooms |   38252.45    2702.91    14.15   0.000     32953.13    43551.77
+              house |    26985.3   9788.972     2.76   0.006     7793.064    46177.54
+surface_total_in_m2 |   18.37016    2.31656     7.93   0.000     13.82832      22.912
+               pop1 |  -53036.27   6185.111    -8.57   0.000    -65162.79   -40909.76
+              _cons |     381624   54823.44     6.96   0.000     274137.3    489110.7
+-------------------------------------------------------------------------------------
+
+. 
+. regress price_aprox_usd usdmexval rooms house surface_total_in_m2 popularity
+
+      Source |       SS           df       MS      Number of obs   =     3,750
+-------------+----------------------------------   F(5, 3744)      =     86.74
+       Model |  1.4897e+13         5  2.9793e+12   Prob > F        =    0.0000
+    Residual |  1.2860e+14     3,744  3.4349e+10   R-squared       =    0.1038
+-------------+----------------------------------   Adj R-squared   =    0.1026
+       Total |  1.4350e+14     3,749  3.8276e+10   Root MSE        =    1.9e+05
+
+-------------------------------------------------------------------------------------
+    price_aprox_usd | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+--------------------+----------------------------------------------------------------
+          usdmexval |  -18018.58   3015.943    -5.97   0.000    -23931.63   -12105.53
+              rooms |   38271.72   2702.036    14.16   0.000     32974.11    43569.33
+              house |    30937.2   9862.741     3.14   0.002     11600.33    50274.07
+surface_total_in_m2 |   18.51114   2.315839     7.99   0.000     13.97071    23.05157
+         popularity |   28524.74   3278.699     8.70   0.000     22096.53    34952.95
+              _cons |   304653.7   55182.94     5.52   0.000     196462.1    412845.2
+-------------------------------------------------------------------------------------
+
+. 
+. log close 
+      name:  <unnamed>
+       log:  /Users/maximianne/Desktop/mexicohousingdata.txt
+  log type:  text
+ closed on:   4 Apr 2022, 20:39:40
+------------------------------------------------------------------------------------------------------------------------------------
