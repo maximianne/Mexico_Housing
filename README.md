@@ -30,3 +30,4 @@ Popularity variable was modified via STATA if certain areas were missed.
 - usdmexval: (ADDED) 
 Added the value of 1 USD in MXN according to the date of listing, taken from 
 
+The STATA file contains the STATA do file as well as the log for the regression analysis of this project
