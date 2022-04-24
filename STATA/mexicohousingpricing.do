@@ -5,7 +5,6 @@ log using mexicohousingdata.txt, text replace
 import delimited "/Users/maximianne/PycharmProjects/IndependentStudy/mex_housing_data.csv"
 
 //fixes 
-drop if price_aprox_usd > 1000000
 replace popularity = 3 if place_name == "Yucatán"
 replace popularity = 3 if place_name == "Bucerías"
 replace popularity = 1 if place_name == "Cuernavaca"
@@ -18,7 +17,6 @@ replace popularity = 3 if place_name == "Cancún"
 replace popularity = 3 if place_name == "San Pedro Garza García"
 replace popularity = 3 if place_name == "Santa Catarina"
 replace popularity = 1 if place_name == "Villa Lomas Altas 2a Secc."
-replace popularity = 2 if popularity == 1 & price_aprox_usd > 600000 
 
 //popularity
 summarize popularity
@@ -41,72 +39,31 @@ replace house =0 if house == .
 
 sort year
 
-// summary statistics 
-by year: summarize price_aprox_usd usdmexval rooms house surface_total_in_m2 if popularity ==3 
+gen log_price = ln(price_aprox_usd)
 
-by year: summarize price_aprox_usd usdmexval rooms house surface_total_in_m2 if popularity ==2 
-
-by year: summarize price_aprox_usd usdmexval rooms house surface_total_in_m2 if popularity ==1
-
-summarize price_aprox_usd
-
-summarize usdmexval
-
-summarize rooms
-
-summarize surface_total_in_m2
-
+summarize log_price
+summarize price_aprox_usd 
+summarize usdmexval 
+summarize rooms 
 summarize house 
-
-summarize popularity
-
-
-summarize price_aprox_usd if popularity == 3
-
-summarize usdmexval if popularity == 3
-
-summarize rooms if popularity == 3
-
-summarize house  if popularity == 3
-
-summarize surface_total_in_m2 if popularity == 3
-
+summarize surface_total_in_m2 
+summarize pop1
+summarize pop2
 summarize pop3 
 
+gen interactionPop1 = usdmexval*pop1 
+gen interactionPop3 = usdmexval*pop3 
 
-summarize price_aprox_usd if popularity == 2
-
-summarize usdmexval if popularity == 2
-
-summarize rooms if popularity == 2
-
-summarize house  if popularity == 2
-
-summarize surface_total_in_m2 if popularity == 2
-
-summarize pop2
+summarize interactionPop1
+summarize interactionPop3
 
 
-summarize price_aprox_usd if popularity == 1
+gen pricemex = price_aprox_usd*usdmexval
+gen logpricemex = ln(pricemex)
 
-summarize usdmexval if popularity == 1
+regress log_price usdmexval rooms house surface_total_in_m2 pop3 interactionPop3
 
-summarize rooms if popularity == 1
-
-summarize house  if popularity == 1
-
-summarize surface_total_in_m2 if popularity == 1
-
-summarize pop1
-
-
-regress price_aprox_usd usdmexval rooms house surface_total_in_m2 pop3
-
-regress price_aprox_usd usdmexval rooms house surface_total_in_m2 pop2
-
-regress price_aprox_usd usdmexval rooms house surface_total_in_m2 pop1
-
-regress price_aprox_usd usdmexval rooms house surface_total_in_m2 popularity
+regress log_price usdmexval interactionPop1 rooms house surface_total_in_m2 pop1
 
 log close 
 
