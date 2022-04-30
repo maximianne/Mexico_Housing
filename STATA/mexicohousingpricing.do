@@ -57,13 +57,17 @@ gen interactionPop3 = usdmexval*pop3
 summarize interactionPop1
 summarize interactionPop3
 
-
+//Normal 
 gen pricemex = price_aprox_usd*usdmexval
 gen logpricemex = ln(pricemex)
 
-regress log_price usdmexval rooms house surface_total_in_m2 pop3 interactionPop3
+regress log_price rooms house surface_total_in_m2
 
-regress log_price usdmexval interactionPop1 rooms house surface_total_in_m2 pop1
+regress log_price usdmexval rooms house surface_total_in_m2
+
+regress log_price usdmexval rooms house surface_total_in_m2 pop3 
+
+regress log_price usdmexval rooms house surface_total_in_m2 pop3 interactionPop3
 
 log close 
 
